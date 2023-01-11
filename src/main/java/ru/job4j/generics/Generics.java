@@ -23,7 +23,7 @@ public class Generics {
          * т.к метод ограничен сверху классом Predator и поэтому добавление класса Animal незозможно
          * Добавить можно только классы Predator и его наследника Tiger
          */
-
+//        gen.printBoundedWildCard(first);
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
@@ -36,6 +36,7 @@ public class Generics {
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
+//        gen.printLowerBoundedWildCard(third);
     }
 
     public void printObject(List<?> list) {
