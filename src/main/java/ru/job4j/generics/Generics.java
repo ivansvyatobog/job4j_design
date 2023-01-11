@@ -22,8 +22,8 @@ public class Generics {
          * Не можем вызвать вызвать метод printBoundedWildCard
          * т.к метод ограничен сверху классом Predator и поэтому добавление класса Animal незозможно
          * Добавить можно только классы Predator и его наследника Tiger
-         */
-//        gen.printBoundedWildCard(first);
+         * gen.printBoundedWildCard(first);
+        */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
@@ -32,11 +32,11 @@ public class Generics {
          * Не можем вызвать метод printLowerBoundedWildCard
          * т.к мотед ограничен снизу классом Predator, добавление объекта класса Tiger невозможно
          * Добавить можно только классы Predator и его родителя класс Animal
+         * gen.printLowerBoundedWildCard(third);
          */
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-//        gen.printLowerBoundedWildCard(third);
     }
 
     public void printObject(List<?> list) {
