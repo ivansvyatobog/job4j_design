@@ -20,8 +20,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         if (size >= container.length) {
             container = grow();
         }
-        container[size] = value;
-        size++;
+        container[size++] = value;
     }
 
     @Override
