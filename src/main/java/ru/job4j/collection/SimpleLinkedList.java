@@ -2,48 +2,47 @@ package ru.job4j.collection;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleLinkedList<E> implements LinkedList<E> {
 
-    private int size = 0;
-    private int modCount = 0;
-    private Node<E> head;
-    private Node<E> tail;
+    private Node<E> first;
+    private Node<E> last;
+    private int modCount;
+    private int size;
 
     @Override
     public void add(E value) {
-        Node<E> newNode = new Node<>(value, null);
-        if (isEmpty()) {
-            head = newNode;
+        if (size == 0) {
+            last = new Node<>(value);
+            first = last;
         } else {
-            tail.next = newNode;
+            Node<E> newNode = new Node<>(value);
+            last.next = newNode;
+            newNode.prev = last;
+            last = newNode;
         }
-        tail = newNode;
-        modCount++;
         size++;
-    }
-
-    public boolean isEmpty() {
-        return head == null;
+        modCount++;
     }
 
     @Override
     public E get(int index) {
         Objects.checkIndex(index, size);
-        Node<E> rsl = head;
+        Node<E> result = first;
         for (int i = 0; i < index; i++) {
-            rsl = rsl.next;
+            result = result.next;
         }
-        return rsl.item;
+        return result.element;
     }
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<>() {
+        return new Iterator<E>() {
+            private int expectedModCount = modCount;
 
-            int expectedModCount = modCount;
-            Node<E> current = head;
+            private Node<E> current = first;
 
             @Override
             public boolean hasNext() {
@@ -56,22 +55,22 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
             @Override
             public E next() {
                 if (!hasNext()) {
-                    throw new IndexOutOfBoundsException();
+                    throw new NoSuchElementException();
                 }
-                Node<E> rsl = current;
+                Node<E> result = current;
                 current = current.next;
-                return rsl.item;
+                return result.element;
             }
         };
     }
 
-    private static class Node<E> {
-        private E item;
-        private Node<E> next;
+    class Node<T> {
+        private T element;
+        private Node<T> prev;
+        private Node<T> next;
 
-        Node(E element, Node<E> next) {
-            this.item = element;
-            this.next = next;
+        public Node(T element) {
+            this.element = element;
         }
     }
 }
