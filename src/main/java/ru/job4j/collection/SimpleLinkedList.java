@@ -13,16 +13,14 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
     @Override
     public void add(E value) {
         Node<E> newNode = new Node<>(value, null);
+        Node<E> current = head;
         if (isEmpty()) {
             head = newNode;
         } else {
-            Node<E> current = head;
-            Node<E> temp = null;
-            while (current != null) {
-                temp = current;
+            while (current.next != null) {
                 current = current.next;
             }
-            temp.next = newNode;
+            current.next = newNode;
         }
         modCount++;
         size++;
