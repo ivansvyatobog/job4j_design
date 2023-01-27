@@ -9,7 +9,6 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
     private int size = 0;
     private int modCount = 0;
     private Node<E> head;
-    private Node<E> tail;
 
     @Override
     public void add(E value) {
@@ -17,9 +16,14 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         if (isEmpty()) {
             head = newNode;
         } else {
-            tail.next = newNode;
+            Node<E> current = head;
+            Node<E> temp = null;
+            while (current != null) {
+                temp = current;
+                current = current.next;
+            }
+            temp.next = newNode;
         }
-        tail = newNode;
         modCount++;
         size++;
     }
@@ -50,7 +54,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return current.next != null;
+                return current != null;
             }
 
             @Override
