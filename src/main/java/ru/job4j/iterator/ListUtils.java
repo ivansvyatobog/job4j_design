@@ -35,7 +35,6 @@ public class ListUtils {
     }
 
     public static <T> void removeAll(List<T> list, List<T> elements) {
-        BiPredicate<List<T>, T> filter = List::contains;
-        list.removeIf(e -> filter.test(elements, e));
+        removeIf(list, elements::contains);
     }
 }
