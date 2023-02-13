@@ -29,7 +29,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int hash(int hashCode) {
-        return hashCode ^ (hashCode >>> capacity);
+        return hashCode ^ (hashCode >>> 16);
     }
 
     private int indexFor(int hash) {
@@ -38,12 +38,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private void expand() {
         if (count >= capacity * LOAD_FACTOR) {
-            capacity = capacity * 2;
+            capacity *= 2;
             MapEntry<K, V>[] tmp = new MapEntry[capacity];
-            for (var k : table) {
-                if (k != null) {
-                    int bucket = getBucket(k.key);
-                    tmp[bucket] = new MapEntry<>(k.key, k.value);
+            for (var mapElement : table) {
+                if (mapElement != null) {
+                    int bucket = getBucket(mapElement.key);
+                    tmp[bucket] = mapElement;
                 }
             }
             table = tmp;
@@ -51,14 +51,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     @Override
+
     public V get(K key) {
         V rsl = null;
-        int hc = Objects.hashCode(key);
-        int bucket = getBucket(key);
-        if (table[bucket] != null
-                && hc == Objects.hashCode(table[bucket].key)
-                && Objects.equals(key, table[bucket].key)) {
-            rsl = table[bucket].value;
+        if (bucketCheck(key)) {
+            rsl = table[getBucket(key)].value;
         }
         return rsl;
     }
@@ -66,16 +63,24 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        int bucket = getBucket(key);
-        if (table[bucket] != null
-                && Objects.hashCode(key) == Objects.hashCode(table[bucket].key)
-                && Objects.equals(key, table[bucket].key)) {
-            table[bucket] = null;
+        if (bucketCheck(key)) {
+            table[getBucket(key)] = null;
             count--;
             modCount++;
             rsl = true;
         }
         return rsl;
+    }
+
+    private boolean bucketCheck(K key) {
+        boolean result = false;
+        int bucket = getBucket(key);
+        if (table[bucket] != null
+                && Objects.hashCode(key) == Objects.hashCode(table[bucket].key)
+                && Objects.equals(key, table[bucket].key)) {
+            result = true;
+        }
+        return result;
     }
 
     @Override
