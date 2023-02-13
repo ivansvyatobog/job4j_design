@@ -54,8 +54,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     public V get(K key) {
         V rsl = null;
-        if (bucketCheck(key, getBucket(key))) {
-            rsl = table[getBucket(key)].value;
+        int index = getBucket(key);
+        if (bucketCheck(key, index)) {
+            rsl = table[index].value;
         }
         return rsl;
     }
@@ -63,8 +64,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        if (bucketCheck(key, getBucket(key))) {
-            table[getBucket(key)] = null;
+        int index = getBucket(key);
+        if (bucketCheck(key, index)) {
+            table[index] = null;
             count--;
             modCount++;
             rsl = true;
