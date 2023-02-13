@@ -54,7 +54,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     public V get(K key) {
         V rsl = null;
-        if (bucketCheck(key)) {
+        if (bucketCheck(key, getBucket(key))) {
             rsl = table[getBucket(key)].value;
         }
         return rsl;
@@ -63,7 +63,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        if (bucketCheck(key)) {
+        if (bucketCheck(key, getBucket(key))) {
             table[getBucket(key)] = null;
             count--;
             modCount++;
@@ -72,9 +72,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return rsl;
     }
 
-    private boolean bucketCheck(K key) {
+    private boolean bucketCheck(K key, int bucket) {
         boolean result = false;
-        int bucket = getBucket(key);
         if (table[bucket] != null
                 && Objects.hashCode(key) == Objects.hashCode(table[bucket].key)
                 && Objects.equals(key, table[bucket].key)) {
