@@ -6,16 +6,15 @@ import java.util.Arrays;
 public class Analysis {
     public void unavailable(String source, String target) {
         try (BufferedReader in = new BufferedReader(new FileReader(source));
-             BufferedWriter out = new BufferedWriter(new FileWriter(target))) {
+             PrintWriter out = new PrintWriter(target)) {
             boolean statusCheck = true;
             String read;
-            String serverOffline = "";
             while ((read = in.readLine()) != null) {
                 if (statusCheck && (read.startsWith("400")) || read.startsWith("500")) {
-                    serverOffline = read.split(" ")[1];
+                    out.append(read.split(" ")[1]).append(";");
                     statusCheck = false;
                 } else if (!statusCheck && (read.startsWith("200") || read.startsWith("300"))) {
-                    out.write(serverOffline + ";" + read.split(" ")[1] + ";");
+                    out.append(read.split(" ")[1]);
                     out.write(System.lineSeparator());
                 }
             }
