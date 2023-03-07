@@ -15,7 +15,7 @@ public class Analysis {
                     out.append(read.split(" ")[1]).append(";");
                 } else if (!statusCheck && read.startsWith("200") || read.startsWith("300")) {
                     statusCheck = true;
-                    out.append(read.split(" ")[1]);
+                    out.append(read.split(" ")[1]).append(";");
                     out.write(System.lineSeparator());
                 }
             }
