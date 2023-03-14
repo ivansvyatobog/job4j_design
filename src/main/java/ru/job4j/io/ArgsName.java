@@ -1,7 +1,9 @@
 package ru.job4j.io;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ArgsName {
 
@@ -15,21 +17,29 @@ public class ArgsName {
     }
 
     private void parse(String[] args) {
-        for (String arg : args) {
-            if (!arg.contains("=")) {
-                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain an equal sign", arg));
-            }
-            String[] argLine = arg.split("=", 2);
-            if (!argLine[0].startsWith("-")) {
-                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not start with a '-' character", arg));
-            }
-            if (argLine[0].startsWith("-") && argLine[0].endsWith("-")) {
-                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a key", arg));
-            }
-            if (argLine[1].length() == 0) {
-                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a value", arg));
-            }
-            values.put(argLine[0].substring(1), argLine[1]);
+        values.putAll(Arrays.stream(args)
+                .filter(el -> {
+                    validate(el);
+                    return true;
+                })
+                .map(el -> el.substring(1))
+                .map(el -> el.split("=", 2))
+                .collect(Collectors.toMap(el -> el[0], el -> el[1])));
+    }
+
+    private static void validate(String arg) {
+        String[] argLine = arg.split("=", 2);
+        if (!arg.contains("=")) {
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain an equal sign", arg));
+        }
+        if (!argLine[0].startsWith("-")) {
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not start with a '-' character", arg));
+        }
+        if (argLine[0].startsWith("-") && argLine[0].endsWith("-")) {
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a key", arg));
+        }
+        if (argLine[1].length() == 0) {
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a value", arg));
         }
     }
 
@@ -43,10 +53,10 @@ public class ArgsName {
     }
 
     public static void main(String[] args) {
-        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
+        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
-        ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
+        ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
     }
 }
