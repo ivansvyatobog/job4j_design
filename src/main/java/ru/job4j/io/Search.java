@@ -22,7 +22,7 @@ public class Search {
     }
 
     public static void validate(String[] args) {
-        if (args.length != 2) {
+        if (args.length < 2) {
             throw new IllegalArgumentException("The root folder is empty or search argument is null. Use ROOT_FOLDER or SEARCH_ARGUMENT");
         }
         File start = Paths.get(args[0]).toFile();
