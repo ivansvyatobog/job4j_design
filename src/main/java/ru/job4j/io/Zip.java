@@ -24,19 +24,7 @@ public class Zip {
         }
     }
 
-    public void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void validate(String[] args) {
-        ArgsName arguments = ArgsName.of(args);
+    private static void validate(ArgsName arguments) {
         File directory = Path.of(arguments.get("d")).toFile();
         if (!directory.exists()) {
             throw new IllegalArgumentException(String.format("%s - not exist", directory.getAbsolutePath()));
@@ -44,7 +32,7 @@ public class Zip {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(String.format("%s - not directory", directory.getAbsolutePath()));
         }
-        if (!arguments.get("e").startsWith(".") || args[1].length() < 2) {
+        if (!arguments.get("e").startsWith(".") || arguments.get("e").length() < 2) {
             throw new IllegalArgumentException("This search argument is not extension.");
         }
         if (!arguments.get("o").endsWith(".zip")) {
@@ -52,9 +40,7 @@ public class Zip {
         }
     }
 
-    public List<Path> pathList(String[] args) throws IOException {
-        validate(args);
-        ArgsName arguments = ArgsName.of(args);
+    public List<Path> pathList(ArgsName arguments) throws IOException {
         Path sourceDir = Path.of(arguments.get("d"));
         this.targetPath = Path.of(arguments.get("o"));
         return Search.search(sourceDir, p -> !p.toString().endsWith(arguments.get("e")));
@@ -64,8 +50,9 @@ public class Zip {
         if (args.length != 3) {
             throw new IllegalArgumentException("Not enough arguments");
         }
-        validate(args);
+        ArgsName arguments = ArgsName.of(args);
+        validate(arguments);
         Zip zip = new Zip();
-        zip.packFiles(zip.pathList(args), zip.targetPath.toFile());
+        zip.packFiles(zip.pathList(arguments), zip.targetPath.toFile());
     }
 }
