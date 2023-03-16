@@ -32,7 +32,7 @@ public class Zip {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(String.format("%s - not directory", directory.getAbsolutePath()));
         }
-        if (!arguments.get("e").startsWith(".") || arguments.get("e").length() < 2) {
+        if (!arguments.get("e").startsWith(".") || arguments.get("e").isEmpty()) {
             throw new IllegalArgumentException("This search argument is not extension.");
         }
         if (!arguments.get("o").endsWith(".zip")) {
