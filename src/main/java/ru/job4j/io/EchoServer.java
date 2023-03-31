@@ -16,7 +16,7 @@ public class EchoServer {
                     String str = in.readLine();
                     if (str.contains("Hello")) {
                         out.write("Hello".getBytes());
-                    }else if (str.contains("Exit")) {
+                    } else if (str.contains("Exit")) {
                         out.write("Работа сервера завершена!".getBytes());
                         server.close();
                     } else {
