@@ -10,6 +10,7 @@ public class UsageLog4j {
     public static void main(String[] args) {
         String name = "Sergey";
         int age = 30;
+        long lifeInDays = 10950;
         double height = 155.9;
         float weight = 80.7f;
         byte childrenCount = 3;
@@ -17,7 +18,8 @@ public class UsageLog4j {
         boolean loginStatus = true;
         short salary = 7239;
 
-        LOG.debug("User info: name - {}, age - {}, height - {}, weight - {}, children count - {}, gender - {}, "
-                + "login status - {}, salary - {}", name, age, height, weight, childrenCount, gender, loginStatus, salary);
+
+        LOG.debug("User info: name - {}, age - {}, life in days - {}, height - {}, weight - {}, children count - {}, gender - {}, "
+                + "login status - {}, salary - {}", name, age, lifeInDays, height, weight, childrenCount, gender, loginStatus, salary);
     }
 }
