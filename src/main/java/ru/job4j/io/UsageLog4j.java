@@ -17,7 +17,7 @@ public class UsageLog4j {
         boolean loginStatus = true;
         short salary = 7239;
 
-        LOG.debug("User info: name - {}, age - {}, height - {}, weight - {}, children count - {}, gender - {}, " +
-                "login status - {}, salary - {}",name, age, height, weight, childrenCount, gender, loginStatus, salary);
+        LOG.debug("User info: name - {}, age - {}, height - {}, weight - {}, children count - {}, gender - {}, "
+                + "login status - {}, salary - {}",name, age, height, weight, childrenCount, gender, loginStatus, salary);
     }
 }
