@@ -14,7 +14,11 @@ public class CSVReader {
             scanner.useDelimiter(System.lineSeparator());
             List<String> filters = Arrays.stream(argsName.get("filter").split(",")).toList();
             List<String> elementsList = Arrays.stream(scanner.next().split(argsName.get("delimiter"))).toList();
-            List<Integer> elementIndex = filters.stream().mapToInt(elementsList::indexOf).filter(i -> i != -1).boxed().toList();
+            List<Integer> elementIndex = filters.stream()
+                    .mapToInt(elementsList::indexOf)
+                    .filter(i -> i != -1)
+                    .boxed()
+                    .toList();
             String filteredElements = filter(elementsList, elementIndex, argsName.get("delimiter"));
             out.println(filteredElements);
             while (scanner.hasNext()) {
@@ -29,7 +33,9 @@ public class CSVReader {
     }
 
     private static String filter(List<String> listOfElements, List<Integer> elementIndexes, String delimiter) {
-        return elementIndexes.stream().map(listOfElements::get).collect(Collectors.joining(delimiter));
+        return elementIndexes.stream()
+                .map(listOfElements::get)
+                .collect(Collectors.joining(delimiter));
     }
 
     private static void validate(ArgsName argsName) {
