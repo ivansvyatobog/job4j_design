@@ -3,6 +3,7 @@ package ru.job4j.serialization.json;
 import ru.job4j.serialization.java.Contact;
 import java.util.Arrays;
 import javax.xml.bind.annotation.*;
+import org.json.JSONObject;
 
 @XmlRootElement(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -26,6 +27,26 @@ public class Person {
         this.age = age;
         this.contact = contact;
         this.statuses = statuses;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isMarried() {
+        return married;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
     }
 
     @Override
