@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<person name="John" married="true" age="32">
+    <cotact>
+        <zipcode>123000</zipcode>
+        <phone>111-333</phone>
+    </cotact>
+    <statuses>
+        <status>Employee</status>
+        <status>Java Developer</status>
+        <status>Team Lead</status>
+    </statuses>
+</person>
