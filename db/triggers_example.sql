@@ -38,8 +38,7 @@ create or replace function tax_row()
     returns trigger as
 $$
 BEGIN
-    update products
-    set new.price = new.price * 1.18;
+    new.price = new.price * 1.18;
     return new;
 END;
 $$
